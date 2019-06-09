@@ -1,3 +1,6 @@
+require 'nokogiri'
+require 'pry'
+require 'open-uri'
 require_relative "./seven_sisters_bookshop/version"
 
 # module SevenSistersBookshop

@@ -1,8 +1,13 @@
+
 class SevenSistersBookshop::School
   attr_accessor :name, :books
 
   def self.all
     # SevenSistersBookshop::SchoolScraper.new("https://riverdogbookco.com/sevensistersstories/")
+    #scrape site and then return schools
+    self.scrape_schools
+    #scrape blog site
+
     # puts <<-DOC
     # 1. Barnard College
     # 2. Bryn Mawr College
@@ -13,7 +18,7 @@ class SevenSistersBookshop::School
     # 7. Wellesley College
     #
     # DOC
-    #scrape blog site
+
 
     school_1 = self.new
     school_1.name = "Barnard College"
@@ -45,5 +50,21 @@ class SevenSistersBookshop::School
 
     [school_1, school_2, school_3, school_4, school_5, school_6, school_7]
     # should return all of the seven sister colleges
+  end
+
+  def self.scrape_schools
+    doc = Nokogiri::HTML(open("https://riverdogbookco.com/sevensistersstories/"))
+    # binding.pry
+
+    school_names = doc.css("div.fl-rich-text p strong").text.gsub(".", "")
+    school_names.gsub("and ", "").split(", ")
+    school_names
+    schools = []
+    schools << school_names
+    # doc.css(div.fl-photo-content.fl-photo-img-png)
+    #go to the website, find the schools, extract the schools' books,
+    # instantiate a school with book properties
+    #schools list doc.css("div.fl-rich-text p strong").text
+    schools
   end
 end
