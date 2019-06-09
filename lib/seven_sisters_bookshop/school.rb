@@ -2,7 +2,7 @@ class SevenSistersBookshop::School
   attr_accessor :name, :books
 
   def self.all
-    # puts <<-DOC
+    # puts <<-DOC 
     # 1. Barnard College
     # 2. Bryn Mawr College
     # 3. Mount Holyoke College
