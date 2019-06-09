@@ -2,7 +2,8 @@ class SevenSistersBookshop::School
   attr_accessor :name, :books
 
   def self.all
-    # puts <<-DOC 
+    SevenSistersBookshop::SchoolScraper.new("https://riverdogbookco.com/sevensistersstories/")
+    # puts <<-DOC
     # 1. Barnard College
     # 2. Bryn Mawr College
     # 3. Mount Holyoke College
@@ -12,6 +13,8 @@ class SevenSistersBookshop::School
     # 7. Wellesley College
     #
     # DOC
+    #scrape blog site
+
     school_1 = self.new
     school_1.name = "Barnard College"
     school_1.books = "book_one"

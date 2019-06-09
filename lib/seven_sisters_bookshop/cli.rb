@@ -5,7 +5,7 @@ class SevenSistersBookshop::CLI
     puts "\nWelcome to the Seven Sisters' Bookshop!\n\nPlease choose a college: \n"
     list_schools
     menu
-    goodbye
+    # goodbye
   end
 
   def list_schools
@@ -22,20 +22,22 @@ class SevenSistersBookshop::CLI
     # DOC
     @schools = SevenSistersBookshop::School.all
     @schools.each.with_index(1) do |school, i|
-      puts "#{i}. #{school}"
+      puts "#{i}. #{school.name}"
     end
   end
 
   def menu
     input = nil
     while input != "exit"
-      puts "Choose the number of the school you'd want to read from, type list to see the school's list again, or type exit to exit:"
+      puts "Choose the number of the school you'd want to read from, type list to see the school's list again, or type exit:"
       input = gets.strip.downcase
 
       if input.to_i > 0
         puts @schools[input.to_i-1]
       elsif input === "list"
         list_schools
+      elsif input === "exit"
+        goodbye
       # else
       # case input
       # when "1"
