@@ -22,7 +22,7 @@ class SevenSistersBookshop::CLI
     # DOC
     @schools = SevenSistersBookshop::School.all
     @schools.each.with_index(1) do |school, i|
-      puts "#{i}. #{school.name}"
+      puts "#{i}. #{school}"
     end
   end
 
@@ -33,7 +33,8 @@ class SevenSistersBookshop::CLI
       input = gets.strip.downcase
 
       if input.to_i > 0
-        puts @schools[input.to_i-1]
+        the_school = @schools[input.to_i-1]
+        puts "#{i}. #{school}"
       elsif input === "list"
         list_schools
       elsif input === "exit"
