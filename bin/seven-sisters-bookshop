@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+require './lib/seven_sisters_bookshop'
+SevenSistersBookshop::CLI.new.call
