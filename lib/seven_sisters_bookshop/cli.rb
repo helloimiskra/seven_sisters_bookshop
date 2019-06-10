@@ -1,6 +1,8 @@
 require_relative './school.rb'
 class SevenSistersBookshop::CLI
 
+  attr_accessor :name, :schools
+
   def call
     puts "\nWelcome to the Seven Sisters' Bookshop!\n\nPlease choose a college: \n"
     list_schools
@@ -10,31 +12,21 @@ class SevenSistersBookshop::CLI
 
   def list_schools
     puts "The Seven Sisters"
-    #  <<-DOC
-    # 1. Barnard College
-    # 2. Bryn Mawr College
-    # 3. Mount Holyoke College
-    # 4. Radcliffe College
-    # 5. Smith College
-    # 6. Vassar College
-    # 7. Wellesley College
-    #
-    # DOC
     @schools = SevenSistersBookshop::School.all
     @schools.each.with_index(1) do |school, i|
-      puts "#{i}. #{school}"
+      puts "#{i}. #{school.name}"
     end
   end
 
   def menu
     input = nil
     while input != "exit"
-      puts "Choose the number of the school you'd want to read from, type list to see the school's list again, or type exit:"
+      puts "Choose the number of the school you want to read from, type list to see the school's list again, or type exit:"
       input = gets.strip.downcase
-
+      binding.pry
       if input.to_i > 0
         the_school = @schools[input.to_i-1]
-        puts "#{i}. #{school}"
+        puts "#{i}. #{school.name}"
       elsif input === "list"
         list_schools
       elsif input === "exit"
