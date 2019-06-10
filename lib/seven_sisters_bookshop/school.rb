@@ -14,9 +14,10 @@ class SevenSistersBookshop::School
     end
   end
 
+  def add_books(books)
+  end
   def self.scrape_schools
     doc = Nokogiri::HTML(open("https://riverdogbookco.com/sevensistersstories/"))
-    # url = Nokogiri::HTML(open("https://shop.riverdogbookco.com/book/9780553375930"))
     binding.pry
     schools = []
     school_names = doc.css("div.fl-rich-text p strong").text.gsub!(".", "")
@@ -29,18 +30,52 @@ class SevenSistersBookshop::School
     self.class.all << self
   end
 
-  # def self.create(name)
-  #   school = School.new(name)
-  #   school.save
-  #   return school
-  # end
+  def self.scrape_books
+    url = Nokogiri::HTML(open(""))
+    booklist = doc.css('img').map { |l| l.attr('alt') }
+    booklist.map!{|title| title.include?('by') ? title : nil}.compact!
+
+titles.map! do |title|
+         if title.include?('ebook')
+
+                nil
+                 else
+                        title
+                         end
+                        end.compact!
+
+titles.map! do |title|
+   if title.include?('audiobook')
+    nil
+   else
+     title
+  end end.compact!
 
 
 
-  # doc.css("div.fl-photo-content.fl-photo-img-jpg").css('alt').text
+
+  # doc.css("div.fl-photo-content.fl-photo-img-jpg a href").first.text
 
   #book urls doc.css('div.fl-photo-content.fl-photo-img-jpg a').map{ |link| link['href'].include?('shop')? link['href'] : nil }.compact
 
+doc.css('div.fl-photo-content.fl-photo-img-jpg a').map{ |link| link['alt']}
+doc.css('img').map { |l| l.attr('alt') }
+titles = doc.css('div.fl-photo-content.fl-photo-img-jpg').map{ |i| i['alt'] }
+
+<Nokogiri::XML::Attr:0x1895200 name="alt" value="The Rhythm of Memory ebook">,
+
+document = Nokogiri::HTML.parse(open('https://riverdogbookco.com/sevensistersstories/'))
+
+tags        = document.xpath("//alt").value
+
+# narrows titles down:
+# titles.map! do |title|
+#   if title.include?('by')
+#     title
+#   else
+#     nil
+#   end
+# end.compact
   #book author url.css("div.abaproduct-authors a").text
   #book price url.css("div.abaproduct-price").text.strip
 

@@ -1,4 +1,5 @@
 require_relative './school.rb'
+require_relative './book.rb'
 class SevenSistersBookshop::CLI
 
   attr_accessor :name, :schools
@@ -26,6 +27,8 @@ class SevenSistersBookshop::CLI
 
       if input.to_i > 0 && input.to_i < 8
         the_school = @schools[input.to_i-1]
+
+        
         puts "#{the_school.name}'s Stories'"
       elsif input === "list"
         list_schools
