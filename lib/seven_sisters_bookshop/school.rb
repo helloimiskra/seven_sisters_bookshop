@@ -4,6 +4,7 @@ class SevenSistersBookshop::School
 
   def initialize(name)
     @name = name
+    @books = []
   end
 
   def self.all
@@ -69,6 +70,18 @@ class SevenSistersBookshop::School
     schools.flatten!
   end
 
+  def self.save
+    self.class.all << self
+  end
+
+  def self.create(name)
+    school = new(name)
+    school.save
+    return school
+  end
+
+
+
   # doc.css("div.fl-photo-content.fl-photo-img-jpg").css('alt').text
 
   #book urls doc.css('div.fl-photo-content.fl-photo-img-jpg a').map{ |link| link['href'].include?('shop')? link['href'] : nil }.compact
@@ -76,7 +89,7 @@ class SevenSistersBookshop::School
   #book author url.css("div.abaproduct-authors a").text
   #book price url.css("div.abaproduct-price").text.strip
 
-  #book desc 1 url.css("div.abaproduct-body").first.text
+  #book desc 1 url.css("div.abaproduct-body").text
   #book desc 2 url.css("div.abaproduct-body b").first.text
   # def self.scrape_books
   #   url = Nokogiri::HTML(open(https://shop.riverdogbookco.com/book/9780812983470)
