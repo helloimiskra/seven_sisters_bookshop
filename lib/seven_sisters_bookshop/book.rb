@@ -1,17 +1,20 @@
+
 class SevenSistersBookshop::Book
-  attr_accessor: :title, :author, :price, :book_url, :desc, :school
+  attr_accessor :title, :author, :price, :book_url, :desc, :school
+  attr_reader :name
 
   @@all = []
 
-  def initialize(title = nil, author = nil, price = nil, book_url = nil, desc = nil)
+  def initialize(book_url = nil, title = nil, author = nil, price = nil, desc = nil)
     @title = title
     @author = author
     @price = price
     @book_url = book_url
     @desc = desc
+    @school = school
   end
 
-  def create_by_url(book_url)
+  def self.create_by_url(book_url)
     url = Nokogiri::HTML(open(book_url))
     Book.new(book_url)
     self.title = url.css("h1").text.gsub(" (Paperback)", "")

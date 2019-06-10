@@ -17,7 +17,7 @@ class SevenSistersBookshop::School
   def self.scrape_schools
     doc = Nokogiri::HTML(open("https://riverdogbookco.com/sevensistersstories/"))
     # url = Nokogiri::HTML(open("https://shop.riverdogbookco.com/book/9780553375930"))
-  #  binding.pry
+    binding.pry
     schools = []
     school_names = doc.css("div.fl-rich-text p strong").text.gsub!(".", "")
     schools << school_names.gsub!("and ", "").split(", ")
