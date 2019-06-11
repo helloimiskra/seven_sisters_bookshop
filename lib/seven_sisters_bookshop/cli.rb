@@ -2,7 +2,7 @@ require_relative './school.rb'
 require_relative './book.rb'
 class SevenSistersBookshop::CLI
 
-  attr_accessor :name, :schools
+  attr_accessor :name, :schools, :books
 
   def call
     puts "\nWelcome to the Seven Sisters' Bookshop!\n\nPlease choose a college: \n"
@@ -13,11 +13,17 @@ class SevenSistersBookshop::CLI
 
   def list_schools
     puts "The Seven Sisters"
-    @schools = SevenSistersBookshop::Book.create_by_url("https://shop.riverdogbookco.com/book/9780812983470")
-    # SevenSistersBookshop::School.all
-    # @schools.each.with_index(1) do |school, i|
-    #   puts "#{i}. #{school.name}"
-    # end
+    @schools = SevenSistersBookshop::School.all
+    @schools.each.with_index(1) do |school, i|
+      puts "#{i}. #{school.name}"
+    end
+  end
+
+  def list_books
+    @books = SevenSistersBookshop::School.scrape_books
+    @books.each.with_index(1) do |book, i|
+      puts "#{i}. #{book}"
+    end
   end
 
   def menu
@@ -28,9 +34,8 @@ class SevenSistersBookshop::CLI
 
       if input.to_i > 0 && input.to_i < 8
         the_school = @schools[input.to_i-1]
-
-
         puts "#{the_school.name}'s Stories'"
+        list_books
       elsif input === "list"
         list_schools
       elsif input === "exit"

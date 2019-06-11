@@ -13,12 +13,12 @@ class SevenSistersBookshop::School
       school = self.new(school)
     end
   end
+  #
+  # def add_books(books)
+  # end
 
-  def add_books(books)
-  end
   def self.scrape_schools
     doc = Nokogiri::HTML(open("https://riverdogbookco.com/sevensistersstories/"))
-    # binding.pry
     schools = []
     school_names = doc.css("div.fl-rich-text p strong").text.gsub!(".", "")
     schools << school_names.gsub!("and ", "").split(", ")
@@ -26,16 +26,64 @@ class SevenSistersBookshop::School
     schools
   end
 
+  def self.scrape_books
+    doc = Nokogiri::HTML(open("https://riverdogbookco.com/sevensistersstories/"))
+    booklist = doc.css('img').map { |l| l.attr('alt') }
+    books = []
+    books << booklist.slice!(4..27)
+    # binding.pry
+    books.flatten!
+  end
+
+    # booklist.find_index("Audio Books Link")
+    #
+
   def self.save
     self.class.all << self
   end
 
+
+  # booklist_one = booklist.map do |book|
+  #     begin
+  #       book
+  #     end while book != "Audio Books Link"
+  #   end
+  # end
+  #       break
+  #     else
+  #       book
+  #     end
+  #   end
+  # end
+  #     else
+  #       book
+  #     end
+  #     i += 1
+  #   end
+  # end
+  #
+  #   until book.include?("Audio Books Link") == true
+  #     book
+  #   end
+  # end
 #   def self.scrape_books
 #     url = Nokogiri::HTML(open(""))
+# take booklist:
 #     booklist = doc.css('img').map { |l| l.attr('alt') }
+# find where audiobooks start booklist.find_index("Audio Books Link")
+# slice at those two points (from paperbacks)
+# create books as empty array
+# books << booklist.slice!(4..27)
+# school #1 titles
+# display list
 #     booklist.map!{|title| title.include?('by') ? title : nil}.compact!
-#
-# titles.map! do |title|
+
+
+# booklist.each_with_index do |title, i|
+#   title[3..28]
+# end
+# end
+# # titles.map! do |title|
 #          if title.include?('ebook')
 #
 #                 nil

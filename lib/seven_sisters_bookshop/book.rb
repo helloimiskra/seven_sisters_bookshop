@@ -15,7 +15,6 @@ class SevenSistersBookshop::Book
   end
 
   def self.create_by_url(book_url)
-    binding.pry
     url = Nokogiri::HTML(open(book_url))
     book = self.new(book_url)
     book.title = url.css("h1").text.gsub(" (Paperback)", "")
