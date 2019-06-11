@@ -15,13 +15,14 @@ class SevenSistersBookshop::Book
   end
 
   def self.create_by_url(book_url)
+    binding.pry
     url = Nokogiri::HTML(open(book_url))
-    Book.new(book_url)
-    self.title = url.css("h1").text.gsub(" (Paperback)", "")
-    self.author = url.css("div.abaproduct-authors a").text
-    self.price = url.css("div.abaproduct-price").text.strip
-    self.desc = url.css("div.abaproduct-body").text
-    save
+    book = self.new(book_url)
+    book.title = url.css("h1").text.gsub(" (Paperback)", "")
+    book.author = url.css("div.abaproduct-authors a").text
+    book.price = url.css("div.abaproduct-price").text.strip
+    book.desc = url.css("div.abaproduct-body").text
+    book.save
   end
 
   def self.all
