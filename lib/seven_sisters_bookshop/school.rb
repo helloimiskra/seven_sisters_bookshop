@@ -25,10 +25,11 @@ class SevenSistersBookshop::School
     schools.flatten!
     schools
   end
-
+doc.css("div.fl-col-group.fl-node").map { |l| l.attr('alt') }
   def self.scrape_books
     doc = Nokogiri::HTML(open("https://riverdogbookco.com/sevensistersstories/"))
     booklist = doc.css('img').map { |l| l.attr('alt') }
+    binding.pry
     books = []
     books << booklist.slice!(4..27)
     # binding.pry
