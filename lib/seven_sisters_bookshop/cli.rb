@@ -1,5 +1,6 @@
 require_relative './school.rb'
 require_relative './book.rb'
+require_relative './scraper.rb'
 class SevenSistersBookshop::CLI
 
   attr_accessor :name, :schools, :books
@@ -20,9 +21,38 @@ class SevenSistersBookshop::CLI
   end
 
   def list_books
-    @books = SevenSistersBookshop::School.scrape_books
-    @books.each.with_index(1) do |book, i|
-      puts "#{i}. #{book}"
+    @college_books = SevenSistersBookshop::School.sort_books_into_schools
+    @college_books.each do |school, book|
+      case school
+      when school == "Barnard"
+        book.each.with_index(1) do |title, i|
+          puts "#{i}. #{title}"
+        end
+      when school == "bryn mawr"
+        book.each.with_index(1) do |title, i|
+          puts "#{i}. #{title}"
+        end
+      when school == "mountholyoke"
+        book.each.with_index(1) do |title, i|
+          puts "#{i}. #{title}"
+        end
+      when school == "radcliffe"
+        book.each.with_index(1) do |title, i|
+          puts "#{i}. #{title}"
+        end
+      when school == "smith"
+        book.each.with_index(1) do |title, i|
+          puts "#{i}. #{title}"
+        end
+      when school == "vassar"
+        book.each.with_index(1) do |title, i|
+          puts "#{i}. #{title}"
+        end
+      when school == "wellesley"
+        books.each.with_index(1) do |title, i|
+          puts "#{i}. #{title}"
+        end
+      end
     end
   end
 
@@ -34,7 +64,8 @@ class SevenSistersBookshop::CLI
 
       if input.to_i > 0 && input.to_i < 8
         the_school = @schools[input.to_i-1]
-        puts "#{the_school.name}'s Stories'"
+        puts "#{the_school.name}'s Stories"
+
         list_books
       elsif input === "list"
         list_schools
