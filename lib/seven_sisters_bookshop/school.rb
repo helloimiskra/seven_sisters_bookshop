@@ -1,6 +1,7 @@
-
+require_relative './scraper.rb'
 class SevenSistersBookshop::School
-  attr_accessor :name, :books
+
+  attr_accessor :name, :books, :schools, :booklist, :college_books
 
   def initialize(name)
     @name = name
@@ -13,7 +14,7 @@ class SevenSistersBookshop::School
       school = self.new(school)
     end
   end
-  #
+
   # def add_books(books)
   # end
 
@@ -25,116 +26,67 @@ class SevenSistersBookshop::School
     schools.flatten!
     schools
   end
-doc.css("div.fl-col-group.fl-node").map { |l| l.attr('alt') }
+
   def self.scrape_books
     doc = Nokogiri::HTML(open("https://riverdogbookco.com/sevensistersstories/"))
     booklist = doc.css('img').map { |l| l.attr('alt') }
-    binding.pry
-    books = []
-    books << booklist.slice!(4..27)
-    # binding.pry
-    books.flatten!
   end
-
-    # booklist.find_index("Audio Books Link")
-    #
 
   def self.save
     self.class.all << self
   end
 
-
-  # booklist_one = booklist.map do |book|
-  #     begin
-  #       book
-  #     end while book != "Audio Books Link"
-  #   end
-  # end
-  #       break
-  #     else
-  #       book
-  #     end
-  #   end
-  # end
-  #     else
-  #       book
-  #     end
-  #     i += 1
-  #   end
-  # end
-  #
-  #   until book.include?("Audio Books Link") == true
-  #     book
-  #   end
-  # end
-#   def self.scrape_books
-#     url = Nokogiri::HTML(open(""))
-# take booklist:
-#     booklist = doc.css('img').map { |l| l.attr('alt') }
-# find where audiobooks start booklist.find_index("Audio Books Link")
-# slice at those two points (from paperbacks)
-# create books as empty array
-# books << booklist.slice!(4..27)
-# school #1 titles
-# display list
-#     booklist.map!{|title| title.include?('by') ? title : nil}.compact!
+  def self.college_books
+    college_books = {
+      barnard: [],
+      brynmawr: [],
+      mountholyoke: [],
+      radcliffe: [],
+      smith: [],
+      vassar: [],
+      wellesley: []
+    }
+  end
 
 
-# booklist.each_with_index do |title, i|
-#   title[3..28]
-# end
-# end
-# # titles.map! do |title|
-#          if title.include?('ebook')
-#
-#                 nil
-#                  else
-#                         title
-#                          end
-#                         end.compact!
-#
-# titles.map! do |title|
-#    if title.include?('audiobook')
-#     nil
-#    else
-#      title
-#   end end.compact!
-#
-#
+  def self.sort_books_into_schools
+    booklist = self.scrape_books
+    college_books = self.college_books
+    audiobooks_index = booklist.each_index.select{|i| booklist[i] == "Audio Books Link" }
+    audiobooks_index.map!{|n| n - 1}
+    paperbooks_index = booklist.each_index.select{|i| booklist[i] == "paper books link" }
+    paperbooks_index.map!{|n| n + 1}
+    # binding.pry
+    booklist.map.with_index do |t, index|
+      if index.between?(paperbooks_index[0], audiobooks_index[0])
+        college_books[:barnard] << "#{t}"
+      elsif index.between?(paperbooks_index[1], audiobooks_index[1])
+        college_books[:brynmawr] << "#{t}"
+      elsif index.between?(paperbooks_index[2], audiobooks_index[2])
+        college_books[:mountholyoke] << "#{t}"
+      elsif index.between?(paperbooks_index[3], audiobooks_index[3])
+        college_books[:radcliffe] << "#{t}"
+      elsif index.between?(paperbooks_index[4], audiobooks_index[4])
+        college_books[:smith] << "#{t}"
+      elsif index.between?(paperbooks_index[5], audiobooks_index[5])
+        college_books[:vassar] << "#{t}"
+      elsif index.between?(paperbooks_index[6], audiobooks_index[6])
+        college_books[:wellesley] << "#{t}"
+      else
+        nil
+      end
+    end.compact
 
-
-  # doc.css("div.fl-photo-content.fl-photo-img-jpg a href").first.text
-
-  #book urls doc.css('div.fl-photo-content.fl-photo-img-jpg a').map{ |link| link['href'].include?('shop')? link['href'] : nil }.compact
-
-# doc.css('div.fl-photo-content.fl-photo-img-jpg a').map{ |link| link['alt']}
-# doc.css('img').map { |l| l.attr('alt') }
-# titles = doc.css('div.fl-photo-content.fl-photo-img-jpg').map{ |i| i['alt'] }
-#
-# <Nokogiri::XML::Attr:0x1895200 name="alt" value="The Rhythm of Memory ebook">,
-#
-# document = Nokogiri::HTML.parse(open('https://riverdogbookco.com/sevensistersstories/'))
-#
-# tags        = document.xpath("//alt").value
-#
-# # narrows titles down:
-# titles.map! do |title|
-#   if title.include?('by')
-#     title
-#   else
-#     nil
-#   end
-# end.compact
-  #book author url.css("div.abaproduct-authors a").text
-  #book price url.css("div.abaproduct-price").text.strip
-
-  #book desc 1 url.css("div.abaproduct-body").text
-  #book desc 2 url.css("div.abaproduct-body b").first.text
-  # def self.scrape_books
-  #   url = Nokogiri::HTML(open(https://shop.riverdogbookco.com/book/9780812983470)
-  # end
-
-
+    # @college_books[:barnard].pop
+    # @college_books[:brynmawr].pop
+    # @college_books[:mountholyoke].pop
+    # @college_books[:radcliffe].pop
+    # @college_books[:smith].pop
+    # @college_books[:vassar].pop
+    # @college_books[:wellesley].pop
+    #
+    college_books
+  end
 
 
 end
