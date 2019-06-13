@@ -22,36 +22,9 @@ class SevenSistersBookshop::CLI
 
   def list_books
     @college_books = SevenSistersBookshop::School.sort_books_into_schools
-    @college_books.each do |school, book|
-      case school
-      when school == "Barnard"
-        book.each.with_index(1) do |title, i|
-          puts "#{i}. #{title}"
-        end
-      when school == "bryn mawr"
-        book.each.with_index(1) do |title, i|
-          puts "#{i}. #{title}"
-        end
-      when school == "mountholyoke"
-        book.each.with_index(1) do |title, i|
-          puts "#{i}. #{title}"
-        end
-      when school == "radcliffe"
-        book.each.with_index(1) do |title, i|
-          puts "#{i}. #{title}"
-        end
-      when school == "smith"
-        book.each.with_index(1) do |title, i|
-          puts "#{i}. #{title}"
-        end
-      when school == "vassar"
-        book.each.with_index(1) do |title, i|
-          puts "#{i}. #{title}"
-        end
-      when school == "wellesley"
-        books.each.with_index(1) do |title, i|
-          puts "#{i}. #{title}"
-        end
+    @college_books.each do |college, books|
+      books.each.with_index(1) do |book, i|
+        puts "#{i}. #{book}"
       end
     end
   end
@@ -65,8 +38,10 @@ class SevenSistersBookshop::CLI
       if input.to_i > 0 && input.to_i < 8
         the_school = @schools[input.to_i-1]
         puts "#{the_school.name}'s Stories"
-
-        list_books
+        list_books[the_school.name].each.with_index(1) do |book, i|
+          puts "#{i}. #{book}"
+        end
+        
       elsif input === "list"
         list_schools
       elsif input === "exit"

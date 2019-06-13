@@ -12,14 +12,10 @@ class SevenSistersBookshop::Scraper
   def self.scrape_books
     doc = Nokogiri::HTML(open("https://riverdogbookco.com/sevensistersstories/"))
     booklist = doc.css('img').map { |l| l.attr('alt') }
-    # binding.pry
-    books = []
-    books << booklist.slice!(4..27)
-    # binding.pry
-    books.flatten!
+    booklist.delete_if{|x| x == ""}
   end
 
-  def get_school_name_from_text(text)
+  def self.get_school_name_from_text(text)
       return :barnard if text.include?("barnard")
       return :brynmawr if text.include?("brynmawr")
       return :mountholyoke if text.include?("mount")
@@ -28,5 +24,4 @@ class SevenSistersBookshop::Scraper
       return :vassar if text.include?("vassar")
       return :wellesley if text.include?("wellesley")
   end
-
 end
