@@ -8,6 +8,7 @@ class SevenSistersBookshop::School
     @books = []
   end
 
+
   def self.all
     schools = self.scrape_schools
     schools.map do |school|
@@ -36,57 +37,67 @@ class SevenSistersBookshop::School
     self.class.all << self
   end
 
-  def self.college_books
-    college_books = {
-      barnard: [],
-      brynmawr: [],
-      mountholyoke: [],
-      radcliffe: [],
-      smith: [],
-      vassar: [],
-      wellesley: []
-    }
-  end
-
-
   def self.sort_books_into_schools
-    booklist = self.scrape_books
-    college_books = self.college_books
-    audiobooks_index = booklist.each_index.select{|i| booklist[i] == "Audio Books Link" }
-    audiobooks_index.map!{|n| n - 1}
-    paperbooks_index = booklist.each_index.select{|i| booklist[i] == "paper books link" }
-    paperbooks_index.map!{|n| n + 1}
-    # binding.pry
-    booklist.map.with_index do |t, index|
-      if index.between?(paperbooks_index[0], audiobooks_index[0])
-        college_books[:barnard] << "#{t}"
-      elsif index.between?(paperbooks_index[1], audiobooks_index[1])
-        college_books[:brynmawr] << "#{t}"
-      elsif index.between?(paperbooks_index[2], audiobooks_index[2])
-        college_books[:mountholyoke] << "#{t}"
-      elsif index.between?(paperbooks_index[3], audiobooks_index[3])
-        college_books[:radcliffe] << "#{t}"
-      elsif index.between?(paperbooks_index[4], audiobooks_index[4])
-        college_books[:smith] << "#{t}"
-      elsif index.between?(paperbooks_index[5], audiobooks_index[5])
-        college_books[:vassar] << "#{t}"
-      elsif index.between?(paperbooks_index[6], audiobooks_index[6])
-        college_books[:wellesley] << "#{t}"
-      else
-        nil
-      end
-    end.compact
 
-    # @college_books[:barnard].pop
-    # @college_books[:brynmawr].pop
-    # @college_books[:mountholyoke].pop
-    # @college_books[:radcliffe].pop
-    # @college_books[:smith].pop
-    # @college_books[:vassar].pop
-    # @college_books[:wellesley].pop
-    #
+    colleges = [
+        "Barnard College logo",
+        "Bryn Mawr College logo",
+        "mount-holyoke-college-2-logo-png-transparent",
+        "Radcliffe logo",
+        "Smith College logo",
+        "Vassar logo",
+        "Wellesley logo"
+        ]
+
+    book_types = [
+        "Audio Books Link",
+        "e-books link"
+        ]
+
+    item_array = self.scrape_books
+
+    college_books = {
+        barnard: [],
+        brynmawr: [],
+        mountholyoke: [],
+        radcliffe: [],
+        smith: [],
+        vassar: [],
+        wellesley: []
+      }
+
+    current_school = nil
+    is_paperback = true
+    binding.pry
+    item_array.map do |item|
+      if colleges.include?(item)
+        current_school = self.get_school_name_from_text(item)
+        is_paperback = true
+      elsif book_types.include? item
+        is_paperback = false
+      elsif item == "paper books link"
+        is_paperback = true
+      else
+        college_books[current_school] << item if is_paperback
+      end
+    end
     college_books
   end
+
+
+
+
+
+  def self.get_school_name_from_text(text)
+    return :barnard if text.include? "Barnard"
+    return :brynmawr if text.include? "Bryn"
+    return :mountholyoke if text.include? "mount-holyoke-college-2-logo-png-transparent"
+    return :radcliffe if text.include? "Radcliffe"
+    return :smith if text.include? "Smith"
+    return :vassar if text.include? "Vassar"
+    return :wellesley if text.include? "Wellesley"
+  end
+
 
 
 end
