@@ -3,7 +3,7 @@ class SevenSistersBookshop::School
 
   attr_accessor :name, :books, :schools, :booklist, :college_books
 
-  def initialize(name)
+  def initialize(book_hash)
     @name = name
     @books = []
   end
@@ -19,14 +19,7 @@ class SevenSistersBookshop::School
     self.class.all << self
   end
   
-  def self.scrape_schools
-    doc = Nokogiri::HTML(open("https://riverdogbookco.com/sevensistersstories/"))
-    schools = []
-    school_names = doc.css("div.fl-rich-text p strong").text.gsub!(".", "")
-    schools << school_names.gsub!("and ", "").split(", ")
-    schools.flatten!
-    schools
-  end
+  
   
   def self.scrape_books
     doc = Nokogiri::HTML(open("https://riverdogbookco.com/sevensistersstories/"))
@@ -35,15 +28,7 @@ class SevenSistersBookshop::School
     booklist.delete_if{|x| x == ""}
   end
   
-  def self.scrape_books
-    doc = Nokogiri::HTML(open("https://riverdogbookco.com/sevensistersstories/"))
-    doc.css('div.fl-photo-content.fl-photo-img-jpg a').map.with_index do |b, i|
-    books = {
-      :title => doc.css('div.fl-photo-content.fl-photo-img-jpg a img').map { |l| l.attr('alt')}[i],
-      :book_url => doc.css('div.fl-photo-content.fl-photo-img-jpg a').map { |l| l.attr('href')}[i]
-      }
-    books
-  end
+  
       
   
   

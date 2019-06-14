@@ -222,7 +222,7 @@ end
 
 def self.sort_books_into_schools
   booklist = self.scrape_books
-  booklist.delete_by
+  booklist.delete
   college_books = self.college_books
   audiobooks_index = booklist.each_index.select{|i| booklist[i] == "Audio Books Link" }
   audiobooks_index.map!{|n| n - 1}

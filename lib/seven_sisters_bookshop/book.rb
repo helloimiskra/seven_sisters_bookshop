@@ -5,8 +5,8 @@ class SevenSistersBookshop::Book
 
   @@all = []
 
-  def initialize(book_url = nil, title = nil, author = nil, price = nil, desc = nil)
-    @title = title
+  def initialize(book_hash)
+    @title = book_hash.title
     @author = author
     @price = price
     @book_url = book_url
