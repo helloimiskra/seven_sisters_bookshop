@@ -30,9 +30,22 @@ class SevenSistersBookshop::School
   
   def self.scrape_books
     doc = Nokogiri::HTML(open("https://riverdogbookco.com/sevensistersstories/"))
+    binding.pry 
     booklist = doc.css('img').map { |l| l.attr('alt') }
     booklist.delete_if{|x| x == ""}
   end
+  
+  def self.scrape_books
+    doc = Nokogiri::HTML(open("https://riverdogbookco.com/sevensistersstories/"))
+    doc.css('div.fl-photo-content.fl-photo-img-jpg a').map.with_index do |b, i|
+    books = {
+      :title => doc.css('div.fl-photo-content.fl-photo-img-jpg a img').map { |l| l.attr('alt')}[i],
+      :book_url => doc.css('div.fl-photo-content.fl-photo-img-jpg a').map { |l| l.attr('href')}[i]
+      }
+    books
+  end
+      
+  
   
   def self.get_school_name_from_text(text)
     return :barnard if text.include? "Barnard"
