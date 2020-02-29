@@ -7,4 +7,4 @@ source "https://rubygems.org"
 gem 'pry'
 gem "rspec"
 gem "nokogiri"
-gem "rake", "~> 10.0"
+gem "rake", "~> 12.3"
